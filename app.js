@@ -1,6 +1,7 @@
 
 var fs = require('fs');
 var mysql = require('mysql');
+var projectName = 'build-java';
 
 var connect = mysql.createConnection({
 	host: 'localhost',
@@ -10,8 +11,8 @@ var connect = mysql.createConnection({
 	port: 3306
 });
 
-if (!fs.existsSync('build-java/')) {
-	fs.mkdirSync('build-java/');
+if (!fs.existsSync(projectName)) {
+	fs.mkdirSync(projectName);
 }
 
 connect.connect();
@@ -31,7 +32,7 @@ connect.query('select table_name from tables where table_schema = "test"', funct
 					fs.closeSync(fd);
 				});
 			});
-		})('build-java/' + fileName + ext, fileName, tableName);
+		})(projectName + fileName + ext, fileName, tableName);
 	}
 });
 connect.end();
